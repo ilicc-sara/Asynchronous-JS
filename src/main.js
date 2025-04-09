@@ -5,6 +5,11 @@ import "./style.css";
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
+function renderError(message) {
+  countriesContainer.insertAdjacentText("beforeend", message);
+  countriesContainer.style.opacity = 1;
+}
+
 ///////////////////////////////////////
 
 // const getCountryData = function (country) {
@@ -145,8 +150,11 @@ const getCountryData = function (country) {
         `https://countries-api-836d.onrender.com/countries/alpha/${neighbour}`
       )
         .then((response) => response.json())
-        .then((data) => renderCountry(data, "neighbour"));
+        .then((data) => renderCountry(data, "neighbour"))
+        .catch((err) => console.error(`${err} 💥💥💥`));
     });
 };
 
-getCountryData("serbia");
+btn.addEventListener("click", function (e) {
+  getCountryData("serbia");
+});
