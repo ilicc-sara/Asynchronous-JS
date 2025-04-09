@@ -135,7 +135,9 @@ const request = fetch(
 
 const getCountryData = function (country) {
   // Country 1
-  fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`)
+  fetch(
+    `https://countries-api-836d.onrender.com/countries/name/${country}`
+  ) /************************************************* */
     .then((response) => response.json())
     .then(function (data) {
       console.log(data);
@@ -151,7 +153,10 @@ const getCountryData = function (country) {
       )
         .then((response) => response.json())
         .then((data) => renderCountry(data, "neighbour"))
-        .catch((err) => console.error(`${err} 💥💥💥`));
+        .catch((err) => {
+          console.error(`${err} 💥💥💥`);
+          renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
+        });
     });
 };
 
