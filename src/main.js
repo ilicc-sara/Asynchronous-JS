@@ -128,22 +128,21 @@ function renderCountry(data, className = "") {
 //   request.send;
 // };
 
-const request = fetch(
-  `https://countries-api-836d.onrender.com/countries/name/portugal`
-);
+// const request = fetch(
+//   `https://countries-api-836d.onrender.com/countries/name/portugal`
+// );
 // console.log(request);
 
 const getCountryData = function (country) {
   // Country 1
   fetch(
-    `https://countries-api-836d.onrender.com/countries/name/${country}`
-  ) /************************************************* */
+    // `https://countries-api-836d.onrender.com/countries/name/${country}`
+    `https://restcountries.com/v2/name/${country}`
+  )
     .then((response) => response.json())
-    .then(function (data) {
-      console.log(data);
+    .then((data) => {
       renderCountry(data[0]);
-
-      const neighbour = data[0]?.borders[5];
+      const neighbour = data[0].borders[5];
 
       if (!neighbour) return;
 
@@ -153,13 +152,16 @@ const getCountryData = function (country) {
       )
         .then((response) => response.json())
         .then((data) => renderCountry(data, "neighbour"))
-        .catch((err) => {
-          console.error(`${err} 💥💥💥`);
-          renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
-        });
+        .catch((err) =>
+          // (err) => alert(err)
+          {
+            console.error(`${err} 💥💥💥`);
+            renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
+          }
+        );
     });
 };
-
+// renderError(`Something went wrong 💥💥. Try again!`);
 btn.addEventListener("click", function (e) {
   getCountryData("serbia");
 });
