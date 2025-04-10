@@ -7,7 +7,7 @@ const countriesContainer = document.querySelector(".countries");
 
 function renderError(message) {
   countriesContainer.insertAdjacentText("beforeend", message);
-  countriesContainer.style.opacity = 1;
+  // countriesContainer.style.opacity = 1;
 }
 
 ///////////////////////////////////////
@@ -70,7 +70,7 @@ function renderCountry(data, className = "") {
 
   countriesContainer.insertAdjacentHTML("beforeend", html);
 
-  countriesContainer.style.opacity = 1;
+  // countriesContainer.style.opacity = 1;
 }
 
 // const getCountryAndNeighbour = function (country) {
@@ -139,7 +139,13 @@ const getCountryData = function (country) {
     // `https://countries-api-836d.onrender.com/countries/name/${country}`
     `https://restcountries.com/v2/name/${country}`
   )
-    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
+      return response.json();
+    })
     .then((data) => {
       renderCountry(data[0]);
       const neighbour = data[0].borders[5];
@@ -158,7 +164,10 @@ const getCountryData = function (country) {
             console.error(`${err} 💥💥💥`);
             renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
           }
-        );
+        )
+        .finally(() => {
+          countriesContainer.style.opacity = 1;
+        });
     });
 };
 // renderError(`Something went wrong 💥💥. Try again!`);
